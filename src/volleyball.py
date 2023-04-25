@@ -4,6 +4,7 @@ import tkinter as tk
 import seaborn as sns
 import tkinter.messagebox
 import statistics
+import matplotlib.pyplot as plt
 
 spielfeldhälfte = 1 #1 oder -1. 1 ist bei team A
 länge_des_ballwechsels = 0
@@ -143,14 +144,6 @@ def spielen(teams, risiko_list, ermüdung):
     print(zwischenergebnisse)
     print("Ergebnisliste: ")
     print(ergebnis_liste)
-    plot = sns.heatmap(df, cmap='RdYlGn', linewidths=0.30, annot=False,
-                       cbar_kws={'label': 'Risk with most observed victories'})
-
-    plt.xlabel("Score " + team_a.name)
-    plt.ylabel("Score " + team_b.name)
-    plt.title("Optimal risk by score situation:\n" + team_a.name + " skill " + str(
-        team_a.skill) + " vs. " + team_b.name + " skill " + str(team_b.skill))
-    plt.show()
 
 
 
@@ -171,13 +164,28 @@ def spielen(teams, risiko_list, ermüdung):
             if not(isinstance(value, float) or isinstance(value, int)) and len(value)>0:
                 heatmap_df[rowIndex][columnIndex] = max(set(value), key=value.count)
             else:
-                heatmap_df[rowIndex][columnIndex] = -1
+                heatmap_df[rowIndex][columnIndex] = 0
 
     print("heatmap2:")
     print(heatmap_df)
+    print("type heatmap:")
+    print(type(heatmap_df))
+    heatmap_df.to_csv("heatmap.csv")
+
+    heat_map = sns.heatmap(heatmap_df)
+    plt.savefig("heatmap.png")
     #track_spiele.append(track_spiel)
     #for track_spiel in track_spiele:
+    #plt = sns.heatmap(heatmap_df, vmin=0, vmax=1.0, cmap='RdYlGn', linewidths=0.30, annot=False, cbar_kws={'label': 'Risk with most observed victories'})
 
+    #plt.xlabel("Score " + teams["A"].name)
+    #plt.ylabel("Score " + teams["B"].name)
+    #plt.title("Optimal risk by score situation:\n" + teams["A"].name + " skill " + str(
+    #   teams["A"].stärke) + " vs. " + teams["B"].name + " skill " + str(teams["B"].stärke))
+
+    heatmap_fig = plt.get_figure()
+    heatmap_fig.savefig("heatmap.png")
+    #plt.show()
 
     return risiko_results
 
