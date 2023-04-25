@@ -44,29 +44,29 @@ def calculate_strategy():
     teams = dict()
     teams["A"] = Team("TeamA", strength_a)
     teams["B"] = Team("TeamB", strength_b)
-    print("Teams:")
-    print(teams["A"].stärke)
-    print(teams["B"].stärke)
+    #print("Teams:")
+    #print(teams["A"].stärke)
+    #print(teams["B"].stärke)
     risiko_list = [0.2, 0.4, 0.6, 0.8, 1.0]
     risiko_results = spielen(teams, risiko_list, ermüdung)
     result_window = tk.Toplevel()
     result_window.title("Resultate")
     result_text = tk.Text(result_window)
-    print("Risiko results in calculate_strategy:")
-    print(risiko_results)
+    #print("Risiko results in calculate_strategy:")
+    #print(risiko_results)
 
     #result_text.insert(tk.END, str(risiko_results))
     for spiel_id,spiel in risiko_results.items():
-        print("spiel_id in calculate_strategy: ")
-        print(spiel_id)
-        print("spiel in calculate_strategy: ")
-        print(spiel)
+        #print("spiel_id in calculate_strategy: ")
+        #print(spiel_id)
+        #print("spiel in calculate_strategy: ")
+        #print(spiel)
         #result_text.insert(tk.END, "Spiel: "+str(spiel"\n")
         for risiko,result in spiel.items():
-            print("risiko in for loop calculate_strategy: ")
-            print(risiko)
-            print("result in for loop calculate_strategy: ")
-            print(result)
+            #print("risiko in for loop calculate_strategy: ")
+            #print(risiko)
+            #print("result in for loop calculate_strategy: ")
+            #print(result)
             result_text.insert(tk.END, "Risiko "+str(risiko)+":\n")
             result_text.insert(tk.END, "A: "+str(result["A"])+" B: "+str(result["B"])+"\n")
             result_text.insert(tk.END, "Ballwechseldurchschnitt: "+str(round(result["ballwechsel"],2))+"\n")
@@ -86,14 +86,14 @@ def spielen(teams, risiko_list, ermüdung):
     track_spiele = pd.DataFrame()
     ergebnis_liste = []
 
-    for spiel in range(0,10):
+    for spiel in range(0,100):
         risiko_results[spiel]=dict()
         #track_spiele[spiel] = dict()
         #spielfeldhälfte = 1
         for risiko in risiko_list:
             #track_spiele[spiel][risiko] = dict()
             risiko_results[spiel][risiko] = dict()
-            print("Risiko: ",risiko)
+            #print("Risiko: ",risiko)
             teams["A"].risiko = risiko
             teams["A"].punkte = 0
             teams["B"].punkte = 0
@@ -101,7 +101,7 @@ def spielen(teams, risiko_list, ermüdung):
             stärke["A"] = teams["A"].stärke
             stärke["B"] = teams["B"].stärke
             ballposession = "A" if np.random.randint(0, 2)==0 else "B"
-            print("startballposession:",ballposession)
+            #print("startballposession:",ballposession)
             #track_spiel = np.array(30,30)
             zwischenergebnisse = []
             while abs(teams["A"].punkte - teams["B"].punkte) < 2 or max(teams["A"].punkte, teams["B"].punkte) < 21:
@@ -109,13 +109,14 @@ def spielen(teams, risiko_list, ermüdung):
                 while True:
                     #ergebnis = np.random.randint(0, 100)
                     ergebnis = np.random.normal(stärke[ballposession], teams[ballposession].risiko)
-                    print("stärke A: "+str(stärke["A"]))
-                    print("stärke B: "+str(stärke["B"]))
+                    #print("stärke A: "+str(stärke["A"]))
+                    #print("stärke B: "+str(stärke["B"]))
                     länge_des_ballwechsels += 1
-                    print("Länge des Ballwechsels:"+str(länge_des_ballwechsels))
+                    #print("Länge des Ballwechsels:"+str(länge_des_ballwechsels))
                     ballposession = "B" if ballposession=="A" else "A"
                     if ergebnis >= 0.5:      #Erfolgreicher Ball
-                        print("ballposession =",ballposession)
+                        #print("ballposession =",ballposession)
+                        pass
                     else:
                         teams[ballposession].onepunkt()
                         #track_spiele[spiel][risiko][teams["A"].punkte] = []
@@ -128,11 +129,11 @@ def spielen(teams, risiko_list, ermüdung):
                     stärke["A"] -= ermüdung
                     stärke["B"] -= ermüdung
                 ballwechsel_längen.append(länge_des_ballwechsels)
-                print(teams["A"].name,str(teams["A"].punkte),teams["B"].name,str(teams["B"].punkte))
+                #print(teams["A"].name,str(teams["A"].punkte),teams["B"].name,str(teams["B"].punkte))
             ballwechsel_längen_mittelwert=statistics.mean(ballwechsel_längen)
-            print("Ende des Spiels.  Team A: ",teams["A"].punkte,"Team B:",teams["B"].punkte)
-            print("Spiel:",spiel)
-            print("Ballwechsellängenmittelwert: "+str(ballwechsel_längen_mittelwert))
+            #print("Ende des Spiels.  Team A: ",teams["A"].punkte,"Team B:",teams["B"].punkte)
+            #print("Spiel:",spiel)
+            #print("Ballwechsellängenmittelwert: "+str(ballwechsel_längen_mittelwert))
             risiko_results[spiel][risiko]["A"] = teams["A"].punkte
             risiko_results[spiel][risiko]["B"] = teams["B"].punkte
             risiko_results[spiel][risiko]["ballwechsel"] = ballwechsel_längen_mittelwert
@@ -140,52 +141,63 @@ def spielen(teams, risiko_list, ermüdung):
             if teams["A"].punkte > teams["B"].punkte:
                 for zwischenergebnis in zwischenergebnisse:
                     ergebnis_liste.append(zwischenergebnis)
-    print("Zwischenergebnisse: ")
-    print(zwischenergebnisse)
-    print("Ergebnisliste: ")
-    print(ergebnis_liste)
+    #print("Zwischenergebnisse: ")
+    #print(zwischenergebnisse)
+    #print("Ergebnisliste: ")
+    #print(ergebnis_liste)
 
 
 
-    heatmap_df = pd.DataFrame([[[] for i in range(50)] for j in range(50)])
+    heatmap_df = pd.DataFrame([[[] for i in range(40)] for j in range(40)])
 
     for ergebnis in ergebnis_liste:
         heatmap_df[ergebnis[0]][ergebnis[1]].append(ergebnis[2])
 
 
     #heatmap_df.applymap(lambda x: behandel_x(x))
-    print("heatmap_df:")
-    print(heatmap_df)
+    #print("heatmap_df:")
+    #print(heatmap_df)
 
     for rowIndex, row in heatmap_df.iterrows():  # iterate over rows
         for columnIndex, value in row.items():
-            print("value: ")
-            print(value)
+            #print("value: ")
+            #print(value)
             if not(isinstance(value, float) or isinstance(value, int)) and len(value)>0:
                 heatmap_df[rowIndex][columnIndex] = max(set(value), key=value.count)
             else:
                 heatmap_df[rowIndex][columnIndex] = 0
 
-    print("heatmap2:")
-    print(heatmap_df)
-    print("type heatmap:")
-    print(type(heatmap_df))
-    heatmap_df.to_csv("heatmap.csv")
-
-    heat_map = sns.heatmap(heatmap_df)
-    plt.savefig("heatmap.png")
+    #print("heatmap2:")
+    #print(heatmap_df)
+    #print("type heatmap:")
+    #print(type(heatmap_df))
+    #print("type heatmap[0]:")
+    #print(type(heatmap_df[0]))
+    #print("type heatmap[0][0]:")
+    #print(type(heatmap_df[0][0]))
+    heatmap_df.to_csv("heatmap.csv", index=False)
+    heatmap_df = pd.read_csv("heatmap.csv")
+    #heat_map = sns.heatmap(heatmap_df)
+    #plt.savefig("heatmap.png")
     #track_spiele.append(track_spiel)
     #for track_spiel in track_spiele:
     #plt = sns.heatmap(heatmap_df, vmin=0, vmax=1.0, cmap='RdYlGn', linewidths=0.30, annot=False, cbar_kws={'label': 'Risk with most observed victories'})
 
     #plt.xlabel("Score " + teams["A"].name)
     #plt.ylabel("Score " + teams["B"].name)
-    #plt.title("Optimal risk by score situation:\n" + teams["A"].name + " skill " + str(
-    #   teams["A"].stärke) + " vs. " + teams["B"].name + " skill " + str(teams["B"].stärke))
+    #plt.title("Optimal risk by score situation:\n" + teams["A"].name + " skill " + str(teams["A"].stärke) + " vs. " + teams["B"].name + " skill " + str(teams["B"].stärke))
 
-    heatmap_fig = plt.get_figure()
-    heatmap_fig.savefig("heatmap.png")
+    #heatmap_fig = plt.get_figure()
+    #heatmap_fig.savefig("heatmap.png")
     #plt.show()
+    plot = sns.heatmap(heatmap_df, cmap='RdYlGn', linewidths=0.30, annot=False,
+                       cbar_kws={'label': 'Risk with most observed victories'})
+
+    plt.xlabel("Score " + teams["A"].name)
+    plt.ylabel("Score " + teams["B"].name)
+    plt.title("Optimal risk by score situation:\n" + teams["A"].name + " skill " + str(
+        teams["A"].stärke*10) + " vs. " + teams["B"].name + " skill " + str(teams["B"].stärke*10))
+    plt.show()
 
     return risiko_results
 
