@@ -86,7 +86,7 @@ def spielen(teams, risiko_list, ermüdung):
     track_spiele = pd.DataFrame()
     ergebnis_liste = []
 
-    for spiel in range(0,100):
+    for spiel in range(0, 100):
         risiko_results[spiel]=dict()
         #track_spiele[spiel] = dict()
         #spielfeldhälfte = 1
@@ -190,14 +190,20 @@ def spielen(teams, risiko_list, ermüdung):
     #heatmap_fig = plt.get_figure()
     #heatmap_fig.savefig("heatmap.png")
     #plt.show()
-    plot = sns.heatmap(heatmap_df, cmap='RdYlGn', linewidths=0.30, annot=False,
+    fig, ax = plt.subplots(figsize=(20, 20))
+    plot = sns.heatmap(heatmap_df, cmap='RdYlGn', linewidths=0.30, annot=True,
                        cbar_kws={'label': 'Risk with most observed victories'})
 
     plt.xlabel("Score " + teams["A"].name)
     plt.ylabel("Score " + teams["B"].name)
     plt.title("Optimal risk by score situation:\n" + teams["A"].name + " skill " + str(
         teams["A"].stärke*10) + " vs. " + teams["B"].name + " skill " + str(teams["B"].stärke*10))
-    plt.show()
+
+    plt.savefig("heatmap.png")
+    #heatmap_fig = plt.get_figure()
+    #heatmap_fig.savefig("heatmap.png")
+    #plt.show()
+
 
     return risiko_results
 
